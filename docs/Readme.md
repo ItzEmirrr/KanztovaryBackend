@@ -35,3 +35,8 @@ The application focuses on usability, scalability, and reliability.
 - Made a core flowchart
 - Made Technical Specification
 - Made analysis of 5 similar services
+
+### Week 3
+- Made authorization
+- Configured spring security
+- Configured CORS

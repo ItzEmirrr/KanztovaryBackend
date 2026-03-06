@@ -10,3 +10,7 @@
 - Make authorization
 - Configure spring security
 - Configure CORS
+
+## 06.03.2026
+- Add categories management
+- Add brands management
