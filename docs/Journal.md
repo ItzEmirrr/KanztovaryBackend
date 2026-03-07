@@ -14,3 +14,5 @@
 ## 06.03.2026
 - Add categories management
 - Add brands management
+- Add products management
+- Add product variants
