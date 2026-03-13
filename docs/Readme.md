@@ -40,3 +40,9 @@ The application focuses on usability, scalability, and reliability.
 - Made authorization
 - Configured spring security
 - Configured CORS
+
+### Week 4
+- Added categories management
+- Added brands management
+- Added products management
+- Added product variants

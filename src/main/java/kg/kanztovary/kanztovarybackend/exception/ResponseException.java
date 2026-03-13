@@ -1,6 +1,6 @@
 package kg.kanztovary.kanztovarybackend.exception;
 
-import kg.kanztovary.kanztovarybackend.domain.dto.ResponseDataDto;
+import kg.kanztovary.kanztovarybackend.domain.dto.exception.ResponseDataDto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;

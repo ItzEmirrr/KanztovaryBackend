@@ -1,6 +1,6 @@
 package kg.kanztovary.kanztovarybackend.exception;
 
-import kg.kanztovary.kanztovarybackend.domain.dto.ResponseDataDto;
+import kg.kanztovary.kanztovarybackend.domain.dto.exception.ResponseDataDto;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;

@@ -1,4 +1,4 @@
-package kg.kanztovary.kanztovarybackend.domain.dto;
+package kg.kanztovary.kanztovarybackend.domain.dto.exception;
 
 import lombok.*;
 
