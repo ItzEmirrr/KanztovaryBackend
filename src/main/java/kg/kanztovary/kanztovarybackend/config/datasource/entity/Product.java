@@ -109,4 +109,8 @@ public class Product {
     @OrderBy("sortOrder ASC")
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<ProductImage> images;
+
+    /** Позиции в заказах (не грузим вместе с товаром) */
+    @OneToMany(mappedBy = "product", fetch = FetchType.LAZY)
+    private List<OrderItem> orderItems;
 }

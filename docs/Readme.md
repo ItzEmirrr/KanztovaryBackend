@@ -46,3 +46,7 @@ The application focuses on usability, scalability, and reliability.
 - Added brands management
 - Added products management
 - Added product variants
+
+### Week 5
+- Made orders
+- Made cart

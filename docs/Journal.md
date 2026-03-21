@@ -20,3 +20,6 @@
 ## 13.03.2026
 - Make orders
 - Make cart
+
+## 21.03.2026
+- Make retail sales
