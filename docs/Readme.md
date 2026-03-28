@@ -50,3 +50,6 @@ The application focuses on usability, scalability, and reliability.
 ### Week 5
 - Made orders
 - Made cart
+
+### Week 6
+- Made retail sales

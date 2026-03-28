@@ -23,3 +23,6 @@
 
 ## 21.03.2026
 - Make retail sales
+
+## 28.03.2026
+- Make KPI dashboard
