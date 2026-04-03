@@ -1,10 +1,7 @@
 package kg.kanztovary.kanztovarybackend.domain.service;
 
 import kg.kanztovary.kanztovarybackend.config.datasource.entity.User;
-import kg.kanztovary.kanztovarybackend.domain.dto.retail.CreateRetailSaleRequest;
-import kg.kanztovary.kanztovarybackend.domain.dto.retail.RetailSaleFilterRequest;
-import kg.kanztovary.kanztovarybackend.domain.dto.retail.RetailSalePageResponse;
-import kg.kanztovary.kanztovarybackend.domain.dto.retail.RetailSaleResponse;
+import kg.kanztovary.kanztovarybackend.domain.dto.retail.*;
 
 public interface RetailSaleService {
 
@@ -19,4 +16,6 @@ public interface RetailSaleService {
      * Склад автоматически восстанавливается.
      */
     void delete(Long id);
+
+    RetailSaleSummaryDto getSummary(RetailSaleFilterRequest filter);
 }

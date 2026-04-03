@@ -2,10 +2,7 @@ package kg.kanztovary.kanztovarybackend.domain.controller;
 
 import jakarta.validation.Valid;
 import kg.kanztovary.kanztovarybackend.config.datasource.entity.User;
-import kg.kanztovary.kanztovarybackend.domain.dto.retail.CreateRetailSaleRequest;
-import kg.kanztovary.kanztovarybackend.domain.dto.retail.RetailSaleFilterRequest;
-import kg.kanztovary.kanztovarybackend.domain.dto.retail.RetailSalePageResponse;
-import kg.kanztovary.kanztovarybackend.domain.dto.retail.RetailSaleResponse;
+import kg.kanztovary.kanztovarybackend.domain.dto.retail.*;
 import kg.kanztovary.kanztovarybackend.domain.service.RetailSaleService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -50,5 +47,11 @@ public class RetailSaleController {
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         retailSaleService.delete(id);
         return ResponseEntity.noContent().build();
+    }
+
+    /** Сводная статистика за период. */
+    @GetMapping("/summary")
+    public RetailSaleSummaryDto getSummary(@ModelAttribute RetailSaleFilterRequest filter) {
+        return retailSaleService.getSummary(filter);
     }
 }

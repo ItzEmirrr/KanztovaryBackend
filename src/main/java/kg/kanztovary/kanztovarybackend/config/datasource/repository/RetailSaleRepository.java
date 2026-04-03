@@ -19,4 +19,12 @@ public interface RetailSaleRepository extends JpaRepository<RetailSale, Long> {
     Page<RetailSale> findByCreatedAtBetweenOrderByCreatedAtDesc(
             LocalDateTime from, LocalDateTime to, Pageable pageable
     );
+
+    @Query("SELECT COALESCE(SUM(r.totalAmount), 0) FROM RetailSale r " +
+            "WHERE r.createdAt BETWEEN :from AND :to")
+    BigDecimal sumTotalAmountBetween(@Param("from") LocalDateTime from,
+                                     @Param("to") LocalDateTime to);
+
+    long countByCreatedAtBetween(LocalDateTime from, LocalDateTime to);
+
 }

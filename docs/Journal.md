@@ -21,8 +21,13 @@
 - Make orders
 - Make cart
 
-## 21.03.2026
+## 20.03.2026
 - Make retail sales
 
-## 28.03.2026
+## 27.03.2026
 - Make KPI dashboard
+
+## 03.04.2026
+- Make user profile
+- Make site review
+- Make AI powered smart recommendations

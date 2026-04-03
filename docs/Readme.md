@@ -53,3 +53,6 @@ The application focuses on usability, scalability, and reliability.
 
 ### Week 6
 - Made retail sales
+
+### Week 7
+- Made KPI dashboard

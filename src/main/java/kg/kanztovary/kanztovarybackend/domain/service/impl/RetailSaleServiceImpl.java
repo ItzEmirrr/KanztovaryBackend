@@ -160,6 +160,31 @@ public class RetailSaleServiceImpl implements RetailSaleService {
         log.info("Розничная продажа #{} удалена, склад восстановлен", id);
     }
 
+    @Override
+    public RetailSaleSummaryDto getSummary(RetailSaleFilterRequest filter) {
+        LocalDateTime from = filter.getFrom() != null
+                ? filter.getFrom().atStartOfDay()
+                : LocalDate.of(2000, 1, 1).atStartOfDay();
+        LocalDateTime to = filter.getTo() != null
+                ? filter.getTo().atTime(LocalTime.MAX)
+                : LocalDateTime.now();
+
+        long count = retailSaleRepository.countByCreatedAtBetween(from, to);
+        BigDecimal revenue = retailSaleRepository.sumTotalAmountBetween(from, to);
+
+        BigDecimal average = count > 0
+                ? revenue.divide(BigDecimal.valueOf(count), 2, java.math.RoundingMode.HALF_UP)
+                : BigDecimal.ZERO;
+
+        return RetailSaleSummaryDto.builder()
+                .totalSales(count)
+                .totalRevenue(revenue)
+                .averageReceipt(average)
+                .from(filter.getFrom())
+                .to(filter.getTo())
+                .build();
+    }
+
 
     /** "синий, A4" — для читаемого сообщения об ошибке остатка */
     private String formatAttributes(ProductVariant variant) {
