@@ -56,3 +56,8 @@ The application focuses on usability, scalability, and reliability.
 
 ### Week 7
 - Made KPI dashboard
+
+### Week 8
+- Made user profile
+- Made site review
+- Made AI powered smart recommendations
