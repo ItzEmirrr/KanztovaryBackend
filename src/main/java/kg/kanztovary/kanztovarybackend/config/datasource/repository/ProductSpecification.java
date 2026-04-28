@@ -68,7 +68,8 @@ public class ProductSpecification {
         return (root, query, cb) -> cb.or(
                 cb.like(cb.lower(root.get("name")), pattern),
                 cb.like(cb.lower(root.get("description")), pattern),
-                cb.like(cb.lower(root.get("sku")), pattern)
+                cb.like(cb.lower(root.get("sku")), pattern),
+                cb.like(cb.lower(root.get("barcode")), pattern)
         );
     }
 
