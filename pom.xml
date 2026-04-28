@@ -11,7 +11,7 @@
     <groupId>kg.kanztovary</groupId>
     <artifactId>KanztovaryBackend</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <packaging>war</packaging>
+    <packaging>jar</packaging>
     <name>KanztovaryBackend</name>
     <description>KanztovaryBackend</description>
     <url/>
@@ -115,6 +115,7 @@
     </dependencies>
 
     <build>
+        <finalName>KanztovaryService</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
