@@ -32,6 +32,13 @@ public class CategoryServiceImpl implements CategoryService {
                     ResponseStatus.CATEGORY_EXISTS.getMessage()
             );
         }
+        if (request.getSlug() != null && !request.getSlug().isBlank()
+                && categoryRepository.existsBySlug(request.getSlug())) {
+            throw new ResponseException(
+                    ResponseStatus.SLUG_EXISTS.getCode(),
+                    ResponseStatus.SLUG_EXISTS.getMessage()
+            );
+        }
 
         Category category = categoryMapper.toEntity(request);
 
@@ -67,6 +74,21 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public ResponseDataDto updateCategory(Integer id, CategoryRequestDto request) {
         Category category = findCategoryById(id);
+
+        if (categoryRepository.existsByNameAndIdNot(request.getName(), id)) {
+            throw new ResponseException(
+                    ResponseStatus.CATEGORY_EXISTS.getCode(),
+                    ResponseStatus.CATEGORY_EXISTS.getMessage()
+            );
+        }
+        if (request.getSlug() != null && !request.getSlug().isBlank()
+                && categoryRepository.existsBySlugAndIdNot(request.getSlug(), id)) {
+            throw new ResponseException(
+                    ResponseStatus.SLUG_EXISTS.getCode(),
+                    ResponseStatus.SLUG_EXISTS.getMessage()
+            );
+        }
+
         category.setName(request.getName());
         category.setDescription(request.getDescription());
         category.setSlug(request.getSlug());

@@ -14,7 +14,8 @@ public enum ResponseStatus {
     PRODUCT_NOT_FOUND(404, "Продукт не найден"),
     CUSTOMER_NOT_FOUND(404, "Клиент не существует"),
 
-    CATEGORY_EXISTS(600, "Такая категория уже существует"),
+    CATEGORY_EXISTS(600, "Категория с таким названием уже существует"),
+    SLUG_EXISTS(619, "Категория с таким slug уже существует"),
     NO_STOCK_SPACE(601, "Недостаточно товара на складе"),
     PHONE_EXISTS(602, "Клиент с таким номером уже существует"),
     ORDER_NOT_FOUND(603, "Заказ не найден"),
