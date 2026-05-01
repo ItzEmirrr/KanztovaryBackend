@@ -224,7 +224,7 @@ public class RetailSaleServiceImpl implements RetailSaleService {
 
         return RetailSaleResponse.builder()
                 .id(sale.getId())
-                .adminUsername(sale.getAdmin().getUsername())
+                .adminUsername(sale.getAdmin().getDisplayName())
                 .note(sale.getNote())
                 .totalAmount(sale.getTotalAmount())
                 .items(itemResponses)

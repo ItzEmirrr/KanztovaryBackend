@@ -36,7 +36,7 @@ public class UserServiceImpl implements UserService {
                     ResponseStatus.EMAIL_EXISTS.getMessage()
             );
         }
-        if (!user.getUsername().equals(request.getUsername()) && userRepository.existsByUsername(request.getUsername())) {
+        if (!user.getDisplayName().equals(request.getUsername()) && userRepository.existsByUsername(request.getUsername())) {
             throw new ResponseException(
                     ResponseStatus.USERNAME_EXISTS.getCode(),
                     ResponseStatus.USERNAME_EXISTS.getMessage()
@@ -75,7 +75,7 @@ public class UserServiceImpl implements UserService {
     private UserProfileDto toDto(User user) {
         return UserProfileDto.builder()
                 .id(user.getId())
-                .username(user.getUsername())
+                .username(user.getDisplayName())
                 .email(user.getEmail())
                 .role(user.getRole().name())
                 .build();

@@ -142,7 +142,7 @@ public class ReviewServiceImpl implements ReviewService {
         return ReviewDto.builder()
                 .id(review.getId())
                 .userId(review.getUser().getId())
-                .username(review.getUser().getUsername())
+                .username(review.getUser().getDisplayName())
                 .rating(review.getRating())
                 .comment(review.getComment())
                 .createdAt(review.getCreatedAt())
