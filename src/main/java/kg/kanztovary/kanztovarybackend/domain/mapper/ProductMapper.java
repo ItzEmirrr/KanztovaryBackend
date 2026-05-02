@@ -32,7 +32,7 @@ public class ProductMapper {
                 .discountPrice(product.getDiscountPrice())
                 .sku(product.getSku())
                 .barcode(product.getBarcode())
-                .stockQuantity(product.getStockQuantity())
+                .stockQuantity(resolveStockQuantity(product))
                 .status(product.getStatus().name())
                 .brand(brandMapper.toDto(product.getBrand()))
                 .categories(mapCategories(product.getCategories()))
@@ -59,6 +59,19 @@ public class ProductMapper {
                 .brand(brand)
                 .categories(categories)
                 .build();
+    }
+
+    /**
+     * Если у товара есть варианты — возвращает сумму остатков по всем вариантам.
+     * Если вариантов нет — возвращает собственный stockQuantity товара.
+     */
+    private Long resolveStockQuantity(Product product) {
+        if (product.getVariants() != null && !product.getVariants().isEmpty()) {
+            return product.getVariants().stream()
+                    .mapToLong(v -> v.getStockQuantity() != null ? v.getStockQuantity() : 0L)
+                    .sum();
+        }
+        return product.getStockQuantity();
     }
 
 
