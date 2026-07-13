@@ -37,6 +37,7 @@ public class OrderServiceImpl implements OrderService {
     private final ProductRepository productRepository;
     private final OrderStatusHistoryRepository historyRepository;
     private final ProductMapper productMapper;
+    private final TelegramServiceImpl whatsAppServiceImpl;
 
     /** Стоимость доставки  */
     @Value("${order.delivery-fee}")
@@ -123,10 +124,82 @@ public class OrderServiceImpl implements OrderService {
         orderRepository.save(order);
 
         saveHistory(order, null, OrderStatus.NEW, currentUser.getEmail());
+        whatsAppServiceImpl.notifyNewOrder(order);
 
         log.info("Заказ #{} создан: способ={}, сумма товаров={}, доставка={}, итого={}",
                 order.getId(), request.getDeliveryType(), subtotal,
                 calculatedDeliveryFee, order.getGrandTotal());
+
+        return mapToResponse(order);
+    }
+
+    @Override
+    public OrderResponse createGuestOrder(GuestCheckoutRequest request) {
+        if (request.getDeliveryType() == DeliveryType.DELIVERY
+                && (request.getDeliveryAddress() == null || request.getDeliveryAddress().isBlank())) {
+            throw new ResponseException(ResponseStatus.BAD_REQUEST.getCode(),
+                    "При выборе доставки укажите адрес");
+        }
+
+        log.info("Гостевой заказ от клиента: {}", request.getCustomerName());
+
+        List<OrderItem> items = new ArrayList<>();
+        BigDecimal subtotal = BigDecimal.ZERO;
+
+        Order order = Order.builder()
+                .user(null)
+                .customerName(request.getCustomerName())
+                .status(OrderStatus.NEW)
+                .deliveryType(request.getDeliveryType())
+                .deliveryAddress(request.getDeliveryType() == DeliveryType.DELIVERY
+                        ? request.getDeliveryAddress()
+                        : null)
+                .phoneNumber(request.getPhoneNumber())
+                .totalPrice(BigDecimal.ZERO)
+                .deliveryFee(BigDecimal.ZERO)
+                .build();
+
+        for (OrderItemDto itemRequest : request.getItems()) {
+            Product product = productRepository.findById(itemRequest.getProductId())
+                    .orElseThrow(() -> new ResponseException(
+                            ResponseStatus.PRODUCT_NOT_FOUND.getCode(),
+                            ResponseStatus.PRODUCT_NOT_FOUND.getMessage()
+                    ));
+
+            if (product.getStockQuantity() < itemRequest.getQuantity()) {
+                throw new ResponseException(ResponseStatus.NO_STOCK_SPACE.getCode(),
+                        ResponseStatus.NO_STOCK_SPACE.getMessage() + ": " + product.getName());
+            }
+
+            BigDecimal unitPrice = product.getDiscountPrice() != null
+                    ? product.getDiscountPrice()
+                    : product.getPrice();
+
+            BigDecimal lineTotal = unitPrice.multiply(BigDecimal.valueOf(itemRequest.getQuantity()));
+
+            items.add(OrderItem.builder()
+                    .order(order)
+                    .product(product)
+                    .quantity(itemRequest.getQuantity())
+                    .price(lineTotal)
+                    .build());
+
+            subtotal = subtotal.add(lineTotal);
+            product.setStockQuantity(product.getStockQuantity() - itemRequest.getQuantity());
+        }
+
+        BigDecimal calculatedDeliveryFee = calculateDeliveryFee(request.getDeliveryType(), subtotal);
+
+        order.setItems(items);
+        order.setTotalPrice(subtotal);
+        order.setDeliveryFee(calculatedDeliveryFee);
+        orderRepository.save(order);
+
+        saveHistory(order, null, OrderStatus.NEW, "guest:" + request.getPhoneNumber());
+        whatsAppServiceImpl.notifyNewOrder(order);
+
+        log.info("Гостевой заказ #{} создан: клиент={}, итого={}", order.getId(),
+                request.getCustomerName(), order.getGrandTotal());
 
         return mapToResponse(order);
     }
@@ -292,6 +365,7 @@ public class OrderServiceImpl implements OrderService {
         return OrderResponse.builder()
                 .id(order.getId())
                 .username(order.getUser() != null ? order.getUser().getUsername() : null)
+                .customerName(order.getCustomerName())
                 .status(order.getStatus().name())
                 .totalPrice(order.getTotalPrice())
                 .deliveryFee(fee)

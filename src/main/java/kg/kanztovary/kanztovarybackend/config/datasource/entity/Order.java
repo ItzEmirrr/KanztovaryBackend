@@ -71,6 +71,10 @@ public class Order {
     @Column(name = "phone_number", nullable = false, length = 20)
     private String phoneNumber;
 
+    /** Имя клиента для гостевых заказов (без авторизации). */
+    @Column(name = "customer_name", length = 100)
+    private String customerName;
+
 
     @CreationTimestamp
     @Column(name = "created_at", nullable = false, updatable = false)

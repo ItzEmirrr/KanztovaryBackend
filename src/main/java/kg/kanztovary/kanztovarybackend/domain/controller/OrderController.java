@@ -25,6 +25,13 @@ public class OrderController {
         return service.create(request);
     }
 
+    /** Гостевой заказ — без авторизации. */
+    @PostMapping("/guest")
+    public OrderResponse createGuest(@Valid @RequestBody GuestCheckoutRequest request) {
+        log.info("Гостевой заказ от клиента: {}", request.getCustomerName());
+        return service.createGuestOrder(request);
+    }
+
     /**
      * История заказов текущего пользователя.
      * ?status=COMPLETED&from=2024-01-01&to=2024-12-31&page=0&size=10

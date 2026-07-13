@@ -9,6 +9,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import kg.kanztovary.kanztovarybackend.domain.dto.exception.ResponseDataDto;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.lang.NonNull;
@@ -22,6 +23,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 
+@Slf4j
 @Component
 @RequiredArgsConstructor
 public class JwtAuthFilter extends OncePerRequestFilter {
@@ -63,9 +65,13 @@ public class JwtAuthFilter extends OncePerRequestFilter {
             filterChain.doFilter(request, response);
 
         } catch (ExpiredJwtException e) {
-            writeError(response, HttpStatus.UNAUTHORIZED, 401, "Срок действия токена истёк. Войдите заново.");
+            // Токен просрочен — продолжаем без аутентификации.
+            // Публичные эндпоинты пройдут, защищённые вернут 401 от Spring Security.
+            log.debug("Просроченный JWT: {}", e.getMessage());
+            filterChain.doFilter(request, response);
         } catch (JwtException e) {
-            writeError(response, HttpStatus.UNAUTHORIZED, 401, "Недействительный токен авторизации.");
+            log.debug("Невалидный JWT: {}", e.getMessage());
+            filterChain.doFilter(request, response);
         }
 
     }

@@ -7,6 +7,9 @@ public interface OrderService {
     /** Создать заказ (привязывается к текущему пользователю) */
     OrderResponse create(CreateOrderRequest request);
 
+    /** Создать гостевой заказ без авторизации */
+    OrderResponse createGuestOrder(GuestCheckoutRequest request);
+
     /** История заказов текущего пользователя с фильтрацией */
     OrderPageResponse getMyOrders(OrderFilterRequest filter);
 

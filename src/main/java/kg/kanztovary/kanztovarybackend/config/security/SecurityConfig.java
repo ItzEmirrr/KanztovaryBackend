@@ -58,6 +58,8 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/api/v1/files/**").hasRole("ADMIN")
                         // KPI и прочие admin-only эндпоинты
                         .requestMatchers("/api/v1/admin/**").hasRole("ADMIN")
+                        // Гостевой заказ — публичный
+                        .requestMatchers(HttpMethod.POST, "/api/v1/orders/guest").permitAll()
                         // Удаление заказов — только ADMIN
                         .requestMatchers(HttpMethod.DELETE, "/api/v1/orders/**").hasRole("ADMIN")
                         // Всё остальное — только авторизованные

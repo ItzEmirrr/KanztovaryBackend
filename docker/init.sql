@@ -175,6 +175,7 @@ CREATE TABLE IF NOT EXISTS stationery.orders (
     delivery_type    VARCHAR(20)    NOT NULL,
     delivery_address VARCHAR(500),
     phone_number     VARCHAR(20)    NOT NULL,
+    customer_name    VARCHAR(100),
     created_at       TIMESTAMP      NOT NULL DEFAULT NOW(),
     updated_at       TIMESTAMP      NOT NULL DEFAULT NOW()
     );

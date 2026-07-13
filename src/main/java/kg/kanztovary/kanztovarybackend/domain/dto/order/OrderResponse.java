@@ -25,6 +25,7 @@ public class OrderResponse {
     /** Итого к оплате = totalPrice + deliveryFee */
     private BigDecimal grandTotal;
 
+    private String customerName;
     private String deliveryType;
     private String deliveryAddress;
     private String phoneNumber;
