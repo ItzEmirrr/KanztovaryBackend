@@ -39,7 +39,7 @@ public class CartServiceImpl implements CartService {
 
 
     @Override
-    @Transactional(readOnly = true)
+    @Transactional()
     public CartDto getCart() {
         User user = currentUser();
         Cart cart = findOrCreateCart(user);
